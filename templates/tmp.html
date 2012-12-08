@@ -9,7 +9,7 @@
                 a: $('input[name="a"]').val(),
                 b: $('input[name="b"]').val()
             }, function(data) {
-            $("#my_games").text(data.gamelist);
+            $("#my_games").html(data.gamelist);
             });
             return false;});
         });
@@ -19,7 +19,7 @@
 <div id="content">
     <input type="text" name="dota_url"/>
     <button id="list_games">
-        Load Games
+        Megacall 
     </button>
 
     <div id="game_list">

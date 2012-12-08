@@ -12,7 +12,7 @@ def add_numbers():
 @app.route('/_game_search')
 def game_search():
     print "call made"
-    data = 'push_this'
+    data = '<span>Some text in a span</span>'
     return jsonify(gamelist=data)
 
 @app.route('/')
