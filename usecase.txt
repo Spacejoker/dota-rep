@@ -1,0 +1,21 @@
+#2.5/5
+enter player link to dotabuff
+if no data in db it must be refreshed
+be able to show stats per hero - k/d/a total for example.
+Every match with that hero listed.
+
+# 0/5
+Bank
+
+#raspberry pi project -vill koera heroku
+
+#online game - to advanced for me now
+
+piro: jquery, flask, nice design, many user hits.
+
+
+IDE:
+Kunna soka pa replayes for en viss hero, och da lista matcher och en verified player.
+Steg 1: Hamta en lista pa verifierade spelare
+Sedan most played heroes for en av dessa
+Spara i mongo-db!

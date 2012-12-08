@@ -1,0 +1,28 @@
+<!doctype html>
+<script type=text/javascript src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type=text/javascript>
+    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+    $(function() {
+        $('button#list_games').bind('click', function() {
+            $.getJSON($SCRIPT_ROOT + '/_game_search', {
+                a: $('input[name="a"]').val(),
+                b: $('input[name="b"]').val()
+            }, function(data) {
+            $("#my_games").text(data.gamelist);
+            });
+            return false;});
+        });
+
+</script>
+
+<div id="content">
+    <input type="text" name="dota_url"/>
+    <button id="list_games">
+        Load Games
+    </button>
+
+    <div id="game_list">
+        <span id="my_games">List my games here</span>
+    </div>
+</div>
