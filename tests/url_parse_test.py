@@ -24,19 +24,6 @@ class TestUrlFunctions(unittest.TestCase):
         players = generate_player_list([html])
         self.assertEqual(len(players), 1)
 
-    @unittest.skip("time_consuming")
-    def test_generate_players(self):
-        players = scrape_player_page(1)
-        self.assertEqual(len(players), 25)
-
-    @unittest.skip("time_consuming")
-    def test_full_call(self):
-        players = gen_full_player_list()
-        self.assertEqual(len(players), 80)
-        for p in players:
-            self.assertIsNotNone(p.name)
-            self.assertIsNotNone(p.page_url)
-
 class TestPersistance(unittest.TestCase):
 
     def setUp(self):
@@ -44,12 +31,15 @@ class TestPersistance(unittest.TestCase):
 
     def test_save_and_delete(self):
         player = Player(name="Jens", page_url="My_super_url")
-        self.db.save_player(player)
+        self.assertEqual(self.db.save_player(player), 0)
+        self.assertEqual(self.db.save_player(player), -1)
+        
         p2 = self.db.find_player(name="Jens")
-        self.assertIsNotNone(p2)
+        self.assertTrue(len(p2)>=1)
         self.db.remove_player(name="Jens")
-        p2 = self.db.find_plaer(name="Jens")
-        self.assertIsNone(p2)
+        p2 = self.db.find_player(name="Jens")
+        self.assertEqual(len(p2),0)
+        
 
 if __name__ == '__main__':
     unittest.main()

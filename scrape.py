@@ -5,7 +5,9 @@ from model import *
 
 def gen_full_player_list():
     ret = []
+    print 'start'
     for page_nr in range(1,5):
+        print 'query for ' + str(page_nr)
         ret.extend(scrape_player_page(page_nr))
     return ret
 
