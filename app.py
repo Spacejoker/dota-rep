@@ -23,7 +23,6 @@ def list_players():
         ret += p['page_url']
         ret += '</li>'
     ret += '</ul>'
-    print ret
     return jsonify(player_list=ret)
 
 @app.route('/_game_search')
