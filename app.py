@@ -1,7 +1,6 @@
 import os
 from flask import Flask, url_for, render_template, request, jsonify
-import urllib2
-
+import scrape, model
 app = Flask(__name__)
 
 @app.route('/_add_numbers')
@@ -12,10 +11,10 @@ def add_numbers():
 
 @app.route('/_game_search')
 def game_search():
-    raw_html = urllib2.urlopen('https://dotabuff.com/players/verified').read()
+    
+    players = scrape_player_page(1)
+    print players
 
-    print raw_html
-    print "html above"
     data = '<span>Some text in a span</span>'
     return jsonify(gamelist=data)
 
