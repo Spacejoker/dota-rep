@@ -15,16 +15,20 @@ def add_numbers():
 @app.route('/_list_players')
 def list_players():
     players = db.find_player()
+    ret = '<ul>'
     for p in players:
-        print p
-
-    return jsonify(player_list="PLEJJERLIST")
+        ret += '<li>name: '
+        ret += p['name']
+        ret += ', url: '
+        ret += p['page_url']
+        ret += '</li>'
+    ret += '</ul>'
+    print ret
+    return jsonify(player_list=ret)
 
 @app.route('/_game_search')
 def game_search():
-    print 'a' 
     players = gen_full_player_list()
-    print 'b'
     for p in players:
         db.save_player(p)
 
