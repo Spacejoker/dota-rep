@@ -1,21 +1,22 @@
 from model import *
-from pymongo import Connection
+import pymongo 
 import os
-if 'MONGOHQ_URL' in os.environ:
-    url = urlparse(os.environ['MONGOHQ_URL'])
-    DB = url.path[1:]
-    DB_HOST = url.hostname
-    DB_PORT = url.port
-    DB_USER = url.username
-    DB_PASS = url.password
 
 class Database():
 
     def __init__(self):
         print 'initializing db connection'
-        conn = connect(settings.DB, host=settings.DB_HOST, port=settings.DB_PORT, username=settings.DB_USER, password=settings.DB_PASS)
-        db = conn[settings.DB]
-        db.authenticate(settings.DB_USER, settings.DB_PASS)
+        try:
+            if os.environ['MONGOHQ_URL']:
+            # Get a connection
+                conn = pymongo.Connection(os.environ['MONGOHQ_URL'])
+            # Get the database
+                db = conn[urlparse(os.environ['MONGOHQ_URL']).path[1:]]
+        except:
+            # Not on an app with the MongoHQ add-on, do some localhost action
+            conn = pymongo.Connection('localhost', 27017)
+            db = conn['dota']
+
         self.db = db
         self.players_ = self.db.players
 
