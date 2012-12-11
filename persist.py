@@ -8,6 +8,7 @@ class Database():
         print 'initializing db connection'
         try:
             if os.environ['MONGOHQ_URL']:
+
             # Get a connection
                 conn = pymongo.Connection(os.environ['MONGOHQ_URL'])
             # Get the database
