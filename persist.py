@@ -1,12 +1,22 @@
 from model import *
 from pymongo import Connection
+import os
+if 'MONGOHQ_URL' in os.environ:
+    url = urlparse(os.environ['MONGOHQ_URL'])
+    DB = url.path[1:]
+    DB_HOST = url.hostname
+    DB_PORT = url.port
+    DB_USER = url.username
+    DB_PASS = url.password
 
 class Database():
 
     def __init__(self):
         print 'initializing db connection'
-        con = Connection()
-        self.db = con.dota_search
+        conn = connect(settings.DB, host=settings.DB_HOST, port=settings.DB_PORT, username=settings.DB_USER, password=settings.DB_PASS)
+        db = conn[settings.DB]
+        db.authenticate(settings.DB_USER, settings.DB_PASS)
+        self.db = db
         self.players_ = self.db.players
 
     def save_player(self, player):

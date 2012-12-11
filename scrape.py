@@ -44,6 +44,7 @@ def scrape_player_by_url(url_extension):
     soup = read_url(url)#hrllib2.urlopen(url).read()
     print soup
     heroes = soup.findAll(attrs={"id":"page-content"})
+
     #for item in str(soup).split("</a>"):
     #    print item
     print heroes
