@@ -7,12 +7,12 @@ class Database():
     def __init__(self):
         print 'initializing db connection'
         try:
-            if os.environ['MONGOHQ_URL']:
+            print "HERE: " + os.environ.get('MONGOHQ_URL'):
 
             # Get a connection
-                conn = pymongo.Connection(os.environ['MONGOHQ_URL'])
+                conn = pymongo.Connection(os.environ.get('MONGOHQ_URL'))
             # Get the database
-                db = conn[urlparse(os.environ['MONGOHQ_URL']).path[1:]]
+                db = conn[urlparse(os.environ.get('MONGOHQ_URL')).path[1:]]
         except:
             # Not on an app with the MongoHQ add-on, do some localhost action
             conn = pymongo.Connection('localhost', 27017)
