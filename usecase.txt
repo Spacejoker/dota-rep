@@ -19,3 +19,6 @@ Kunna soka pa replayes for en viss hero, och da lista matcher och en verified pl
 Steg 1: Hamta en lista pa verifierade spelare
 Sedan most played heroes for en av dessa
 Spara i mongo-db!
+
+Steg 2: Visa alla heroes, inkl bild etc.
+
