@@ -18,13 +18,14 @@ class Database():
             db = conn[urlparse(os.environ.get('MONGOHQ_URL')).path[1:]]
         except:
             tb = traceback.format_exc()
-            print tb
+#            print tb
             # Not on an app with the MongoHQ add-on, do some localhost action
             conn = pymongo.Connection('localhost', 27017)
             db = conn['dota']
 
         self.db = db
         self.players_ = self.db.players
+        self.hero_ = self.db.hero
 
     def save_player(self, player):
         p = {   'name' : player.name,
@@ -57,3 +58,26 @@ class Database():
 
     def remove_player(self, name=None):
         self.players_.remove({'name':name}, safe=True)
+
+    def save_hero(self, name=None, img_link=None):
+        h = {'type' : 'hero',
+                'name' : name,
+                'img_link' : img_link }
+             
+        self.hero_.save(h)
+
+    def find_hero(self, name=None):
+        ret = []
+        c = self.hero_.find({'type':'hero'})
+        for h in c:
+            ret.append(h)
+        return ret
+
+    def remove_hero(self, name=None):
+        if name==None:
+            self.hero_.remove({
+                'type' : 'hero'}, safe=True)
+        else:
+            self.hero_.remove({
+                'name' : name,
+                'type' : 'hero'}, safe=True)
