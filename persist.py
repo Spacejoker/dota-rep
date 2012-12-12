@@ -2,6 +2,7 @@ from model import *
 import pymongo 
 import os
 import traceback
+from urlparse import urlparse
 
 class Database():
 
