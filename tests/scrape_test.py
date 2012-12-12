@@ -5,7 +5,14 @@ from model import *
 from scrape import *
 from persist import *
 
+#he only plays wisp so this one should work a while at least
+class TestPlayerInfo(unittest.TestCase):
+    def test_most_used_heroes(self):
+        player = scrape_player_by_url('/players/85805514/_heroes')
+        print player.top_heroes[0]
+        self.assertEqual(player.top_heroes[0].name, "Wisp")
 
+#time consuming, arund 5 seconds
 class TestIntegration(unittest.TestCase):
 
     def test_generate_players(self):

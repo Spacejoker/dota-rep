@@ -1,3 +1,4 @@
+
 class Player():
     def __init__(self, name=None, page_url=None):
         self.name = name

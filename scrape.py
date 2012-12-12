@@ -38,14 +38,8 @@ def make_player_from_link(link):
     return Player(name=name, page_url=page_url)
 
 def scrape_player_by_url(url_extension):
-    
     url = root_domain + url_extension 
-    print url.split("</a>")
     soup = read_url(url)#hrllib2.urlopen(url).read()
-    print soup
     heroes = soup.findAll(attrs={"id":"page-content"})
 
-    #for item in str(soup).split("</a>"):
-    #    print item
-    print heroes
     return PlayerDetails([Hero('Pugna')])
