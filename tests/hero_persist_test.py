@@ -11,13 +11,14 @@ class TestHero(unittest.TestCase):
 
     def test_save_and_delete(self):
         self.db.remove_hero()
-        self.db.save_hero("Alchemist", "some_url")
+        self.db.save_hero(Hero("Alchemist", "some_url"))
         res = self.db.find_hero("Alchemist")
         self.assertEqual(len(res), 1)
         
         self.db.remove_hero("Bloodseeker")
         res = self.db.find_hero("Alchemist")
         self.assertEqual(len(res), 1, "Removed alch when trying to remove bloodseeker")
+        self.assertEqual(res[0].name, "Alchemist")
 
         self.db.remove_hero("Alchemist")
         res = self.db.find_hero("Alchemist")

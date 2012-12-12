@@ -57,10 +57,10 @@ class Database():
         self.players_.remove({'name':name}, safe=True)
     
 #hero crud
-    def save_hero(self, name=None, img_link=None):
+    def save_hero(self, hero):
         h = {'type' : 'hero',
-                'name' : name,
-                'img_link' : img_link }
+                'name' : hero.name,
+                'img_link' : hero.img_link }
              
         self.hero_.save(h)
 
@@ -68,7 +68,8 @@ class Database():
         ret = []
         c = self.hero_.find({'type':'hero'})
         for h in c:
-            ret.append(h)
+            hero = Hero(h['name'], h['img_link'])
+            ret.append(hero)
         return ret
 
     def remove_hero(self, name=None):

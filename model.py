@@ -12,5 +12,9 @@ class PlayerDetails():
         self.top_heroes = top_heroes
 
 class Hero():
-    def __init__(self, name=None):
+    def __init__(self, name, img_link):
         self.name = name
+        self.img_link = img_link
+    def __str__(self):
+        print self.img_link
+        return "Hero name: " + self.name + "."

@@ -43,3 +43,35 @@ def scrape_player_by_url(url_extension):
     heroes = soup.findAll(attrs={"id":"page-content"})
 
     return PlayerDetails([Hero('Pugna')])
+
+def refresh_heroes(db):
+    print 'refreshing heroes'
+    db_heroes = db.find_hero()
+    web_heroes = parse_current_heroes()
+
+    new_heroes = []
+
+    for wh in web_heroes:
+        found = False
+        for dh in db_heroes:
+            if dh.name == wh.name:
+                found = True
+        if not found:
+            new_heroes.append(wh)
+    
+    for h in new_heroes:
+        db.save_hero(h)
+
+    return new_heroes
+
+def parse_current_heroes():
+    soup = read_url('https://dotabuff.com/heroes')
+    hero_links = soup.findAll(attrs={"class":"tile-container tile-container-hero"})
+    hero_list = []
+   
+    for link in hero_links:
+        img_link = str(link['style']).split('url')[1][1:-1]
+        img_url = 'https://dotabuff.com/' + img_link
+        hero_name = img_url.split('/')[-1].split('-')[0]
+        hero_list.append(Hero(hero_name, hero_name + '.png'))
+    return hero_list

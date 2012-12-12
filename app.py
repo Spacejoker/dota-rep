@@ -1,6 +1,7 @@
 import os
-from flask import Flask, url_for, render_template, request, jsonify
+from flask import Flask, url_for, render_template, request, jsonify, Markup
 from scrape import *
+import scrape
 from model import *
 from persist import *
 
@@ -21,10 +22,39 @@ def list_players():
     ret += '</ul>'
     return jsonify(player_list=ret)
 
+#Admin site
+@app.route('/admin')
+def admin():
+    print 'a'
+    heroes = db.find_hero()
+    print 'b'
+    ret = '<ul>'
+    for h in heroes:
+        ret += '<li>' + str(h) + '</li>'
+    ret += '</ul>'
+    
+    return render_template('admin.html', hero_list = ret)
+
+@app.route('/_remove_hero')
+def remove_hero():
+    db.remove_hero() 
+    return jsonify(result='All heroes deleted')
+
+@app.route('/_refresh_heroes')
+def refresh_heroes():
+    #request.args.get('heroname')
+    heroes = scrape.refresh_heroes(db)
+    return jsonify(result='Success, nr of new heroes: ' + str(len(heroes)))
+
 #flask page with static content
 @app.route('/heroes')
 def heroes():
-    hero = url_for('static', filename='alchemist.png')
+    hero_list = db.find_hero()
+    ret = ""
+    for h in hero_list:
+        ret += '<img src="' + url_for('static', filename=h.img_link) + '"/>'
+    print ret
+    hero = Markup(ret)
     return render_template('heroes.html', hero=hero)
 
 #scrape the web via ajax call
