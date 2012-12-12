@@ -25,14 +25,14 @@ def list_players():
 #Admin site
 @app.route('/admin')
 def admin():
-    print 'a'
+    print 'admin routed'
     heroes = db.find_hero()
-    print 'b'
+    print 'dbcall = ok'
     ret = '<ul>'
     for h in heroes:
         ret += '<li>' + str(h) + '</li>'
     ret += '</ul>'
-    
+    print 'about to return' 
     return render_template('admin.html', hero_list = ret)
 
 @app.route('/_remove_hero')

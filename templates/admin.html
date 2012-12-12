@@ -1,0 +1,58 @@
+<!doctype html>
+<script type=text/javascript src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type=text/javascript>
+    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+    $(function() {
+        $('button#list_games').bind('click', function() {
+            $.getJSON($SCRIPT_ROOT + '/_game_search', {
+                a: $('input[name="a"]').val(),
+                b: $('input[name="b"]').val()
+            }, function(data) {
+            $("#my_games").html(data.gamelist);
+            });
+            return false;});
+        });
+    $(function() {
+        $('button#list_players').bind('click', function() {
+            $.getJSON($SCRIPT_ROOT + '/_list_players', {
+            }, function(data) {
+            $("#players").html(data.player_list);
+            });
+            return false;});
+        });
+
+$(function(){
+        $('button#remove_hero').bind('click', function(){
+            $.getJSON($SCRIPT_ROOT + '/_remove_hero', {
+                }, function(data){
+                $('#refresh_result').html(data.result);
+                });
+            return false;});
+        });
+
+$(function(){
+        $('button#refresh_heroes').bind('click', function(){
+            $.getJSON($SCRIPT_ROOT + '/_refresh_heroes', {
+                }, function(data){
+                $('#refresh_result').html(data.result);
+                });
+            return false;});
+        });
+
+
+</script>
+
+<div id="content">
+    <a href="/heroes">Herolist</a>
+    <br/> 
+    <button id="refresh_heroes">Refresh heroes</button>
+    <button id="remove_hero">Remove heroes</button>
+    <span id="refresh_result">...</span>
+
+    </br>
+    <button id="list_players">Load players from db</button>
+    <div id="players">Player list</div>
+    <span>{{hero_list|tojson|safe}}</span>
+</div>
+
