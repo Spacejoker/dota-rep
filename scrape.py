@@ -72,6 +72,11 @@ def parse_current_heroes():
     for link in hero_links:
         img_link = str(link['style']).split('url')[1][1:-1]
         img_url = 'https://dotabuff.com/' + img_link
-        hero_name = img_url.split('/')[-1].split('-')[0]
+        hero_name_parts = img_url.split('/')[-1].split('-')[:-1]
+        hero_name = ''
+        for part in hero_name_parts:
+            hero_name += part + '_'
+        hero_name = hero_name[:-1]
         hero_list.append(Hero(hero_name, hero_name + '.png'))
+        print 'deluxe'
     return hero_list
