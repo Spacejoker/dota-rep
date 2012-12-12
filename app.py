@@ -25,7 +25,6 @@ def list_players():
 @app.route('/heroes')
 def heroes():
     hero = url_for('static', filename='alchemist.png')
-     
     return render_template('heroes.html', hero=hero)
 
 #scrape the web via ajax call
