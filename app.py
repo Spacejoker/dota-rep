@@ -49,7 +49,9 @@ def refresh_heroes():
 #flask page with static content
 @app.route('/heroes')
 def heroes():
+    print 'routing ok'
     hero_list = db.find_hero()
+    print 'dbcall ok'
     ret = ""
     for h in hero_list:
         ret += '<img src="' + url_for('static', filename=h.img_link) + '"/>'
