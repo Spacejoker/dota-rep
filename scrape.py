@@ -2,6 +2,7 @@ import urllib2
 from bs4 import BeautifulSoup
 import re
 from model import *
+import urllib
 
 root_domain = 'https://dotabuff.com'
 
@@ -45,7 +46,6 @@ def scrape_player_by_url(url_extension):
     return PlayerDetails([Hero('Pugna')])
 
 def refresh_heroes(db):
-    print 'refreshing heroes'
     db_heroes = db.find_hero()
     web_heroes = parse_current_heroes()
 
@@ -64,7 +64,7 @@ def refresh_heroes(db):
 
     return new_heroes
 
-def parse_current_heroes():
+def parse_current_heroes(save_img=False):
     soup = read_url('https://dotabuff.com/heroes')
     hero_links = soup.findAll(attrs={"class":"tile-container tile-container-hero"})
     hero_list = []
@@ -78,5 +78,13 @@ def parse_current_heroes():
             hero_name += part + '_'
         hero_name = hero_name[:-1]
         hero_list.append(Hero(hero_name, hero_name + '.png'))
-        print 'deluxe'
+        if save_img:
+            urllib.urlretrieve(img_url, '../static/hero_img/' + hero_name + '.png')
+         
     return hero_list
+
+def get_latest_games(player_id='67601693'):
+    url = 'https://dotabuff.com/players/' + player_id + '/matches'
+    soup = url_read(url)
+    print soup.find(tr)
+    

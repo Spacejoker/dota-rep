@@ -45,6 +45,17 @@
         });
     });
 
+    $(function(){
+        $('button#load_games').bind('click', function(){
+            $.getJSON($SCRIPT_ROOT + '/_load_games', {
+                }, function(data){
+                $('#game_list').html(data.result);
+                });
+            return false;
+        });
+    });
+
+
 </script>
 
 <div id="content">
@@ -59,4 +70,6 @@
     <div id="players">Player list</div>
     <span>{{hero_list|tojson|safe}}</span>
     <!-- knockout - enklast att plocka upp, backbone -->
+    <button id="load_games">Load some games</button>
+    <span id="game_list"/>
 </div>

@@ -30,15 +30,16 @@ def abc():
 #Admin site
 @app.route('/admin')
 def admin():
-    print 'admin routed'
     heroes = db.find_hero()
-    print 'dbcall = ok'
     ret = '<ul>'
     for h in heroes:
         ret += '<li>' + str(h) + '</li>'
     ret += '</ul>'
-    print 'about to return' 
     return render_template('admin.html', hero_list = ret)
+
+@app.route('/_load_games')
+def load_games():
+    return jsonify(result='handsomeness')
 
 @app.route('/_remove_hero')
 def remove_hero():
@@ -59,7 +60,7 @@ def heroes():
     print 'dbcall ok'
     ret = ""
     for h in hero_list:
-        ret += '<img src="' + url_for('static', filename=h.img_link) + '"/>'
+        ret += '<img src="' + url_for('static', filename='hero_img/' + h.img_link) + '"/>'
     print ret
     hero = Markup(ret)
     return render_template('heroes.html', hero=hero)
