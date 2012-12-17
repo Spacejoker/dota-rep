@@ -22,6 +22,11 @@ def list_players():
     ret += '</ul>'
     return jsonify(player_list=ret)
 
+@app.route('/abc')
+def abc():
+    print 'hello' 
+    return render_template('k.html', hero_list = [])
+
 #Admin site
 @app.route('/admin')
 def admin():

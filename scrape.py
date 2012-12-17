@@ -17,7 +17,7 @@ def gen_full_player_list():
 def scrape_player_page(pagenr=1):
     url = root_domain + '/players/verified?page=' + str(pagenr)
     soup = read_url(url)#{urllib2.urlopen(url).read()
-
+    
     players = soup.findAll(attrs={"class":"cell-xlarge"})
     
     return generate_player_list(players)

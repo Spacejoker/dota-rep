@@ -33,7 +33,6 @@ class Database():
         for item in already_in:
             tmp.append(item)
         if len(tmp) > 0:
-       #     print 'player ' + player.name + ' already in db' #TODO LOG
             return -1
         self.players_.insert(p)
         return 0
@@ -55,13 +54,12 @@ class Database():
 
     def remove_player(self, name=None):
         self.players_.remove({'name':name}, safe=True)
-    
+
 #hero crud
     def save_hero(self, hero):
         h = {'type' : 'hero',
                 'name' : hero.name,
                 'img_link' : hero.img_link }
-             
         self.hero_.save(h)
 
     def find_hero(self, name=None):
