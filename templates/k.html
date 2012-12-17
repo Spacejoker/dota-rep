@@ -1,0 +1,35 @@
+<html>
+<script type='text/javascript' src='static/knockout-2.2.0.js'></script>
+<script type=text/javascript src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<body>
+
+<p>First name: <input data-bind="value: firstName" /></p>
+<p>Last name: <input data-bind="value: lastName" /></p>
+<h2>Hello, <span data-bind="text: fullName"> </span>!</h2>
+
+<span id="players">Players</players>
+
+<script type='text/javascript'>
+    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+/*<![CDATA[*/
+    // Here's my data model
+    var ViewModel = function(first, last) {
+        this.firstName = ko.observable(first);
+        this.lastName = ko.observable(last);
+        
+        this.fullName = ko.computed(function() {
+            $.getJSON($SCRIPT_ROOT + '/_list_players', {
+                }, function(data) {
+                    this.lastname = data.player_list
+            //        $("#players").html(data.player_list);
+                });
+                return this.firstName() + " " + this.lastName();
+                }, this);
+            };
+
+    ko.applyBindings(new ViewModel("Planet", "Earth")); // This makes Knockout get to work
+/*]]>*/
+</script>
+</body>
+</html>
