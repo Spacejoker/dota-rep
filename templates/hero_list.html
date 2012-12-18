@@ -4,7 +4,7 @@
 
 <script type="text/javascript">
     var myModel = {
-        name: 'Jensa',
+        name: ko.observable('Jensa'),
         age: ko.observable(28),
         increment : function() {
             var prevage = this.age();
@@ -23,7 +23,6 @@
                 //a: $('input[name="a"]').val(),
                 //b: $('input[name="b"]').val()
                 }, function(data) {
-                myModel.name = "abc";
                 alert(data.result);//        $("#my_games").html(data.gamelist);
             });
             return false;
