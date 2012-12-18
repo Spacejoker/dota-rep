@@ -85,6 +85,6 @@ def parse_current_heroes(save_img=False):
 
 def get_latest_games(player_id='67601693'):
     url = 'https://dotabuff.com/players/' + player_id + '/matches'
-    soup = url_read(url)
-    print soup.find(tr)
-    
+    soup = read_url(url)
+    print soup.find('tr')
+    return [] 

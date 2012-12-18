@@ -42,6 +42,9 @@ def admin():
 
 @app.route('/_load_games')
 def load_games():
+    print request.args.get('hero_name')
+    player_id = request.args.get('player_id')
+    games = scrape.get_latest_games(player_id)
     print 'server called'
     return jsonify(result='handsomeness')
 

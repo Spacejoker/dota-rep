@@ -20,10 +20,12 @@
     $(function() {
         $('button#load_games').bind('click', function() {
             $.getJSON($SCRIPT_ROOT + '/_load_games', {
-                //a: $('input[name="a"]').val(),
+                hero_name: 'lina',
+                player_id: '67601693'
                 //b: $('input[name="b"]').val()
                 }, function(data) {
-                alert(data.result);//        $("#my_games").html(data.gamelist);
+                alert('hej');
+                self.myModel.name('Mulle');
             });
             return false;
         });
