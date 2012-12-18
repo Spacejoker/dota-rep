@@ -46,7 +46,7 @@ def load_games():
     player_id = request.args.get('player_id')
     games = scrape.get_latest_games(player_id)
     print 'server called'
-    return jsonify(result='handsomeness')
+    return jsonify(result=games)
 
 @app.route('/_remove_hero')
 def remove_hero():
