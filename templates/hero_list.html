@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+<script type="text/javascript">
+var myModel = {
+    name: 'Jensa',
+    age: ko.observable(28),
+    increment : function() {
+        var prevage = this.age();
+        this.age(prevage + 1);
+    }
+};
+$(function(){
+    ko.applyBindings(myModel);
+});
+</script>
+
+{% endblock %}
+
+{% block body %}
+<span data-bind="text: name"></span>
+<span data-bind="text: age"></span>
+
+<div class="container" style="background-color: #CCC">
+    
+    <div class="row">
+        <div class="span4">
+            <button data-bind="click: increment" id="load_games" class="btn btn-primary">Load games</button>
+        </div>
+        <div class="span8">HELLO 2</div>
+    </div>
+
+</div>
+
+
+{% endblock %}
