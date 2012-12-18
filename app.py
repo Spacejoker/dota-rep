@@ -42,6 +42,7 @@ def admin():
 
 @app.route('/_load_games')
 def load_games():
+    print 'server called'
     return jsonify(result='handsomeness')
 
 @app.route('/_remove_hero')

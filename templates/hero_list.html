@@ -3,17 +3,33 @@
 {% block head %}
 
 <script type="text/javascript">
-var myModel = {
-    name: 'Jensa',
-    age: ko.observable(28),
-    increment : function() {
-        var prevage = this.age();
-        this.age(prevage + 1);
-    }
-};
-$(function(){
-    ko.applyBindings(myModel);
-});
+    var myModel = {
+        name: 'Jensa',
+        age: ko.observable(28),
+        increment : function() {
+            var prevage = this.age();
+            this.age(prevage + 1);
+        }
+    };
+    $(function(){
+        ko.applyBindings(myModel);
+    });
+
+    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+    $(function() {
+        $('button#load_games').bind('click', function() {
+            $.getJSON($SCRIPT_ROOT + '/_load_games', {
+                //a: $('input[name="a"]').val(),
+                //b: $('input[name="b"]').val()
+            }, function(data) {
+                alert(data.result);//        $("#my_games").html(data.gamelist);
+            });
+            return false;
+        });
+    });
+
+
 </script>
 
 {% endblock %}
