@@ -20,3 +20,8 @@ class Hero():
     def __str__(self):
         print self.img_link
         return "Hero name: " + self.name + "."
+
+class Game():
+    def __init__(self, game_stats, match_id):
+        self.game_stats = game_stats
+        self.match_id = match_id
