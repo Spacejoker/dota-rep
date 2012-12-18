@@ -78,3 +78,9 @@ class Database():
             self.hero_.remove({
                 'name' : name,
                 'type' : 'hero'}, safe=True)
+        return None
+
+    def get_matches(self, hero_name="Lina"):
+        return {'matches' : [{'match_id':'100', 'heroes' : ['Pugna','Lina']}, {'match_id':'42', 'heroes' : ['Skeleton King','Drow Ranger']}]}
+        #return self.hero_.find({'type':'match')
+

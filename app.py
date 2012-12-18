@@ -42,9 +42,10 @@ def admin():
 
 @app.route('/_load_games')
 def load_games():
-    player_id = request.args.get('player_id')
-    games = scrape.get_latest_games(player_id)
-    ret = {'ret' : games }
+    hero_name = request.args.get('hero_name')
+    matches = db.get_matches(hero_name=hero_name)
+    #games = scrape.get_latest_games(player_id)
+    ret = {'ret' : matches }
     print 'returning from server'
     return jsonify(**ret)
 
@@ -59,9 +60,9 @@ def refresh_heroes():
     heroes = scrape.refresh_heroes(db)
     return jsonify(result='Success, nr of new heroes: ' + str(len(heroes)))
 
-@app.route('/hero_list')
+@app.route('/matches_list')
 def hero_list():
-    return render_template('hero_list.html', hero_list="abc")
+    return render_template('matches_list.html', hero_list="abc")
 
 #flask page with static content
 @app.route('/heroes')
