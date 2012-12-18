@@ -3,33 +3,52 @@
 {% block head %}
 
 <script type="text/javascript">
-    var myModel = {
-        name: ko.observable('Jensa'),
-        age: ko.observable(28),
-        increment : function() {
-            var prevage = this.age();
-            this.age(prevage + 1);
-        }
-    };
-    $(function(){
-        ko.applyBindings(myModel);
-    });
+function Match(hero, match_id){
+    var self = this;
+    self.hero = hero;
+    self.match_id = match_id;
+}
 
-    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+var myModel = {
+    self: this,
+    name: ko.observable('Jensa'),
+    age: ko.observable(28),
+    match_id: ko.observable(''),
+    row_data: ko.observableArray([]), 
+    matches:  ko.observableArray([
+    ]),
 
-    $(function() {
-        $('button#load_games').bind('click', function() {
-            $.getJSON($SCRIPT_ROOT + '/_load_games', {
-                hero_name: 'lina',
-                player_id: '67601693'
-                //b: $('input[name="b"]').val()
-                }, function(data) {
-                alert('hej');
-                self.myModel.name('Mulle');
-            });
-            return false;
+    addRow : function(data) {
+        this.matches.push(new Match(data.main_hero, data.match_id));
+    },
+
+    increment : function() {
+        var prevage = this.age();
+        this.age(prevage + 1);
+    }
+};
+$(function(){
+    ko.applyBindings(myModel);
+});
+
+var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+$(function() {
+    $('button#load_games').bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/_load_games', {
+            hero_name: 'lina',
+            player_id: $('select[name="player"]').val()//'67601693'
+            //b: $('input[name="b"]').val()
+            }, function(data) {
+            var d = data.ret;
+            self.myModel.row_data([]);
+            for(var i = 0; i < d.length; i++){
+                self.myModel.addRow(d[i].data);
+            }
         });
+        return false;
     });
+});
 
 
 </script>
@@ -40,15 +59,28 @@
 <span data-bind="text: name"></span>
 <span data-bind="text: age"></span>
 
-<div class="container" style="background-color: #CCC">
-    
-    <div class="row">
-        <div class="span4">
-            <button data-bind="click: increment" id="load_games" class="btn btn-primary">Load games</button>
-        </div>
-        <div class="span8">HELLO 2</div>
-    </div>
+<select name="player">
+    <option value="67601693">EG.DeMoN</option>
+    <option value="71307027">fnysboda</option>
+</select>
 
+<div class="container" style="background-color: #FCF3FF">
+
+<button data-bind="click: increment" id="load_games" class="btn btn-primary">Load games</button>
+<table class="table">
+    <thead>
+        <tr class='row'>
+            <th class='span4'>Hero</th>
+            <th class='span4'>Match ID</th> 
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: matches">
+        <tr class='row'>
+            <td class='span4' data-bind="text: hero"></td>
+            <td class='span4' data-bind="text: match_id"></td>
+        </tr>
+    </tbody>
+</table>
 </div>
 
 

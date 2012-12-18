@@ -90,11 +90,9 @@ def get_latest_games(player_id='67601693'):
     ret = []
     for row in tbody:
         links = row.findAll('a')
-        print links[1]
         match_id = links[1]['href']
         
-        print 'match-id is ' + match_id.split('/')[2]
-        match_info = {}
-        match_info['main_hero'] = links[1].text
-        ret.append(Game(match_info, match_info))
+        match_id = match_id.split('/')[2]
+        match_info = {'main_hero' :  links[1].text, 'match_id' : match_id}
+        ret.append({ 'data' : match_info})
     return ret 
