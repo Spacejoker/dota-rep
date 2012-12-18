@@ -22,7 +22,8 @@
             $.getJSON($SCRIPT_ROOT + '/_load_games', {
                 //a: $('input[name="a"]').val(),
                 //b: $('input[name="b"]').val()
-            }, function(data) {
+                }, function(data) {
+                myModel.name = "abc";
                 alert(data.result);//        $("#my_games").html(data.gamelist);
             });
             return false;
