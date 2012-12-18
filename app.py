@@ -8,6 +8,9 @@ from persist import *
 app = Flask(__name__)
 db = None
 
+#http://24ways.org/2012/how-to-make-your-site-look-half-decent/
+#http://twitter.github.com/bootstrap/
+
 #ajax call to create html-content
 @app.route('/_list_players')
 def list_players():
