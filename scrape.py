@@ -96,3 +96,23 @@ def get_latest_games(player_id='67601693'):
         match_info = {'main_hero' :  links[1].text, 'match_id' : match_id}
         ret.append({ 'data' : match_info})
     return ret 
+
+
+def add_match(match_id='', db=None):
+    soup = read_url('https://dotabuff.com/matches/' + match_id)
+
+    tbodies = soup.findAll('tbody')
+    ret = {'type' : 'match'}
+    hero_data = []
+    for tbody in tbodies:
+        for row in tbody:
+            tmp = {}
+            links = row.findAll('a')
+            tmp['player'] = links[1].text
+            tmp['hero'] = links[3].text
+            hero_data.append(tmp)
+    
+    ret['heroes'] = hero_data    
+    ret['match_id'] = soup.find('h1').text
+    db.save_match(ret)
+

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+<script type="text/javascript">
+function Match(hero, match_id){
+    var self = this;
+    self.hero = hero;
+    self.match_id = match_id;
+}
+
+var myModel = {
+    self: this,
+    name: ko.observable('Jensa'),
+    age: ko.observable(28),
+    match_id: ko.observable(''),
+    row_data: ko.observableArray([]), 
+    matches:  ko.observableArray([
+    ]),
+
+    addRow : function(data) {
+        this.matches.push(new Match(data.summary, data.match_id));
+    },
+
+    increment : function() {
+        var prevage = this.age();
+        this.age(prevage + 1);
+    }
+};
+$(function(){
+    ko.applyBindings(myModel);
+});
+
+var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+$(function() {
+    $('button#load_games').bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/_load_games', {
+            hero_name: $('select[name="hero"]').val()//'67601693'
+            //b: $('input[name="b"]').val()
+            }, function(data) {
+            alert(data);
+            var d = data.matches;
+            self.myModel.matches([]);
+            for(var i = 0; i < d.length; i++){
+                self.myModel.addRow(d[i]);
+            }
+        });
+        return false;
+    });
+});
+
+
+</script>
+
+{% endblock %}
+
+{% block body %}
+<span data-bind="text: name"></span>
+<span data-bind="text: age"></span>
+
+<select name="hero">
+    <option value="Lina">Lina</option>
+    <option value="Pugna">Pugna</option>
+</select>
+
+<div class="container" style="background-color: #FCF3FF">
+
+<button data-bind="click: increment" id="load_games" class="btn btn-primary">Load games</button>
+<table class="table">
+    <thead>
+        <tr class='row'>
+            <th class='span4'>Hero</th>
+            <th class='span4'>Match ID</th> 
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: matches">
+        <tr class='row'>
+            <td class='span4' data-bind="text: hero"></td>
+            <td class='span4' data-bind="text: match_id"></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+
+{% endblock %}

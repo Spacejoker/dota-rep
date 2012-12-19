@@ -80,7 +80,22 @@ class Database():
                 'type' : 'hero'}, safe=True)
         return None
 
-    def get_matches(self, hero_name="Lina"):
-        return {'matches' : [{'match_id':'100', 'heroes' : ['Pugna','Lina']}, {'match_id':'42', 'heroes' : ['Skeleton King','Drow Ranger']}]}
-        #return self.hero_.find({'type':'match')
+    def remove_match(self):
+        self.hero_.remove({'type' : 'match'}, safe=True)
+
+    def save_match(self, match):
+        self.hero_.save(match)
+
+    def find_match(self, hero_name=""):
+        #return {'matches' : [{'match_id':'100', 'heroes' : ['Pugna','Lina']}, {'match_id':'42', 'heroes' : ['Skeleton King','Drow Ranger']}]}
+        c = None
+        if(hero_name != ""):
+            c = self.hero_.find({'type' : 'match', 'heroes.hero' : {'$in':  [hero_name] }},{'_id': False})
+        else:
+            c = self.hero_.find({'type':'match'}, {'_id': False})
+        ret = []
+        for item in c:
+            ret.append(item)
+
+        return ret
 

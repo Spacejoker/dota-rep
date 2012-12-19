@@ -43,9 +43,25 @@ def admin():
 @app.route('/_load_games')
 def load_games():
     hero_name = request.args.get('hero_name')
-    matches = db.get_matches(hero_name=hero_name)
+    print hero_name
+    matches = db.find_match(hero_name)
+    print len(matches)
     #games = scrape.get_latest_games(player_id)
-    ret = {'ret' : matches }
+    
+    #process result before showing
+    for m in matches:
+        print m
+        m['summary'] = 'The summary'
+        for h in m['heroes']:
+            print h
+            if h['hero'] == hero_name:
+                print 'match!'
+                m['summary'] = str(hero_name) + ' played by ' + str(h['player'])
+    print 'after'
+    ret = {'matches' : matches}
+    print 'RET:'
+    print ret
+    #ret = {'matches': [{'heroes': [{'player': 'DotAholi...', 'hero': 'Weaver'}], '_id': ObjectId('50d1079e9eae4f5309164f1c'), 'type': 'match', 'match_id': u'Match 79804452'}]}
     print 'returning from server'
     return jsonify(**ret)
 
