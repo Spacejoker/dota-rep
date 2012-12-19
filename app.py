@@ -52,6 +52,13 @@ def load_games():
     print 'b'
     return jsonify(**ret)
 
+#clear matches
+@app.route('/admin/_remove_match')
+def remove_match():
+    print 'removing'
+    db.remove_match()
+    return jsonify(result='success')
+
 #clear heroes
 @app.route('/_remove_hero')
 def remove_hero():

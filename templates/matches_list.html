@@ -58,6 +58,17 @@ $(function() {
     });
 });
 
+
+$(function() {
+    $('button#remove_match').bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/admin/_remove_match', {
+            }, function(data) {
+            alert('all matches deleted');
+        });
+        return false;
+    });
+});
+
 </script>
 
 {% endblock %}
@@ -65,6 +76,8 @@ $(function() {
 {% block body %}
 <input name="match_id_input"></input>
 <button css="btn" id="scrape_match">Scrape match</button>
+<button css="btn btn-warning" id="remove_match">Remove all matches</button>
+
 <br/><br/>
 <div class="container" style="background-color: #FCF3FF">
 <div class="row">
