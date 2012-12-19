@@ -6,7 +6,10 @@
 var myModel = {
     self: this,
           status: ko.observable('Status'),
-          total_matches: ko.observable('game count')
+          total_matches: ko.observable('game count'),
+
+    players: ko.observableArray([]), 
+
 };
 $(function(){
     ko.applyBindings(myModel);
@@ -42,6 +45,19 @@ $(function() {
         $.getJSON($SCRIPT_ROOT + '/admin/_status', {
             }, function(data) {
             self.myModel.total_matches(data.games_played);
+            self.myModel.players(data.players);
+        });
+        return false;
+    });
+});
+
+
+$(function() {
+    $('button#scrape_player').bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/admin/_scrape_player', {
+            match_id: $('select[name="player"]').val()
+            }, function(data) {
+            self.myModel.status('Player scraped');
         });
         return false;
     });
@@ -61,5 +77,11 @@ $(function() {
 <button css="btn btn-warning" id="remove_match">Remove all matches</button>
 
 <button css="btn" id="status">Get Status</button>
+<br></br>
+<p>
+    Player to scrape 
+    <select name="player" data-bind="options: players, optionsText: 'name', value: 'page_url', optionsCaption: 'Choose player'"></select>
+</p>
+<button css="btn" id="scrape_player">Scrape player</button>
 {% endblock %}
 

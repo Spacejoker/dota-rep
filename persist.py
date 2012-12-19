@@ -41,7 +41,7 @@ class Database():
        
         if(name == None):
             ret = []
-            c = self.players_.find()
+            c = self.players_.find(fields={'_id' : False})
             for p in c:
                 ret.append(p)
             return ret

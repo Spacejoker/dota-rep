@@ -34,11 +34,19 @@ def scrape_game():
             print 'problem with game ' + str(m_id)
 
     return jsonify()
-
+@app.route('/admin/_scrape_player')
+def scrape_player():
+    print 'scrape player'
+    ret = {}
+    return jsonify(**ret)
 @app.route('/admin/_status')
 def status():
-    db.match_count()
-    ret = {'games_played' : '1000 games'}
+    players = db.find_player()
+    print 'b'
+    match_cnt = db.count_matches()
+    print players
+    ret = {'games_played' : str(match_cnt), 'players' : players}
+    print 'c'
     return jsonify(**ret)
 
 #List games per search criteria (hero_name)
