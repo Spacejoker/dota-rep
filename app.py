@@ -13,7 +13,7 @@ db = None
 #Admin site, implement correctly
 @app.route('/admin')
 def admin():
-    return 'Hello admin'
+    return render_template('admin.html')
 
 @app.route('/matches_list')
 def hero_list():
@@ -34,6 +34,12 @@ def scrape_game():
             print 'problem with game ' + str(m_id)
 
     return jsonify()
+
+@app.route('/admin/_status')
+def status():
+    db.match_count()
+    ret = {'games_played' : '1000 games'}
+    return jsonify(**ret)
 
 #List games per search criteria (hero_name)
 @app.route('/_load_games')

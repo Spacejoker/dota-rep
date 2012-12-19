@@ -1,75 +1,65 @@
-<!doctype html>
-<script type=text/javascript src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type=text/javascript>
-    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+{% extends "base.html" %}
 
-    $(function() {
-        $('button#list_games').bind('click', function() {
-            $.getJSON($SCRIPT_ROOT + '/_game_search', {
-                a: $('input[name="a"]').val(),
-                b: $('input[name="b"]').val()
+{% block head %}
+
+<script type="text/javascript">
+var myModel = {
+    self: this,
+          status: ko.observable('Status'),
+          total_matches: ko.observable('game count')
+};
+$(function(){
+    ko.applyBindings(myModel);
+});
+
+var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+$(function() {
+    $('button#scrape_match').bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/_scrape_game', {
+            match_id: $('input[name="match_id_input"]').val()//'67601693'
             }, function(data) {
-            $("#my_games").html(data.gamelist);
-            });
-            return false;
+            self.myModel.status('Added a game or two.');
         });
+        return false;
     });
+});
 
-    $(function() {
-        $('button#list_players').bind('click', function() {
-            $.getJSON($SCRIPT_ROOT + '/_list_players', {
+
+$(function() {
+    $('button#remove_match').bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/admin/_remove_match', {
             }, function(data) {
-            $("#players").html(data.player_list);
-            });
-            return false;
+            self.myModel.status('Deleted');
         });
+        return false;
     });
+});
 
-    $(function(){
-        $('button#remove_hero').bind('click', function(){
-            $.getJSON($SCRIPT_ROOT + '/_remove_hero', {
-                }, function(data){
-                $('#refresh_result').html(data.result);
-                });
-            return false;
-        });
-    });
 
-    $(function(){
-        $('button#refresh_heroes').bind('click', function(){
-            $.getJSON($SCRIPT_ROOT + '/_refresh_heroes', {
-                }, function(data){
-                $('#refresh_result').html(data.result);
-                });
-            return false;
+$(function() {
+    $('button#status').bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/admin/_status', {
+            }, function(data) {
+            self.myModel.total_matches(data.games_played);
         });
+        return false;
     });
-
-    $(function(){
-        $('button#load_games').bind('click', function(){
-            $.getJSON($SCRIPT_ROOT + '/_load_games', {
-                }, function(data){
-                $('#game_list').html(data.result);
-                });
-            return false;
-        });
-    });
+});
 
 
 </script>
 
-<div id="content">
-    <a href="/heroes">Herolist</a>
-    <br/> 
-    <button id="refresh_heroes">Refresh heroes</button>
-    <button id="remove_hero">Remove heroes</button>
-    <span id="refresh_result">...</span>
+{% endblock %}
 
-    </br>
-    <button id="list_players">Load players from db</button>
-    <div id="players">Player list</div>
-    <span>{{hero_list|tojson|safe}}</span>
-    <!-- knockout - enklast att plocka upp, backbone -->
-    <button id="load_games">Load some games</button>
-    <span id="game_list"/>
-</div>
+{% block body %}
+<span data-bind="text: status">Status</span>
+<span data-bind="text: total_matches">Status</span>
+<br></br>
+<input name="match_id_input"></input>
+<button css="btn" id="scrape_match">Scrape match</button>
+<button css="btn btn-warning" id="remove_match">Remove all matches</button>
+
+<button css="btn" id="status">Get Status</button>
+{% endblock %}
+

@@ -100,3 +100,6 @@ class Database():
 
         return ret
 
+    def count_matches(self, hero_name=""):
+        return self.hero_.find({ 'type' : 'match'}).count()
+
