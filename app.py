@@ -63,9 +63,7 @@ def load_games():
     for m in matches:
         m['summary'] = 'The summary'
         for h in m['heroes']:
-            print h
             if h['hero'] == hero_name:
-                print 'match!'
                 m['summary'] = str(hero_name) + ' played by ' + str(h['player'])
     ret = {'matches' : matches}
 
@@ -89,9 +87,7 @@ def hero_list():
 #flask page with static content
 @app.route('/heroes')
 def heroes():
-    print 'routing ok'
     hero_list = db.find_hero()
-    print 'dbcall ok'
     ret = ""
     for h in hero_list:
         ret += '<img src="' + url_for('static', filename='hero_img/' + h.img_link) + '"/>'
