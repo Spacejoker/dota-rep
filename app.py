@@ -36,9 +36,15 @@ def scrape_game():
     return jsonify()
 @app.route('/admin/_scrape_player')
 def scrape_player():
-    print 'scrape player'
+    print 'a'
+    player_id = request.args.get('match_id')
+    print 'b'
+    print player_id
+    scrape.scrape_player(player_id, db)
+    print 'c' 
     ret = {}
     return jsonify(**ret)
+
 @app.route('/admin/_status')
 def status():
     players = db.find_player()
@@ -101,4 +107,5 @@ def heroes():
 if __name__ == '__main__':
     db = Database()
     port = int(os.environ.get('PORT', 5000))
+    app.debug = True
     app.run(host='0.0.0.0', port=port)

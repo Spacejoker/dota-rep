@@ -99,6 +99,7 @@ def get_latest_games(player_id='67601693'):
 
 
 def add_match(match_id='', db=None):
+    print 'scraping match ' + match_id
     soup = read_url('https://dotabuff.com/matches/' + match_id)
 
     tbodies = soup.findAll('tbody')
@@ -119,3 +120,12 @@ def add_match(match_id='', db=None):
     ret['match_id'] = soup.find('h1').text
     db.save_match(ret)
 
+def scrape_player(player_id, db):
+    print player_id
+    url = 'https://dotabuff.com/players/' + player_id + '/matches'
+    print url
+    soup = read_url(url)
+    links = soup.findAll(attrs={'class':'matchid'})#attrs={'class':'hero-link'})#[].findAll('tr')
+    for link in links:
+        add_match(link.text, db)
+    
