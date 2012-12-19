@@ -11,6 +11,7 @@ function Match(hero, match_id){
 
 var myModel = {
     self: this,
+    status: ko.observable('Status'),
 //    name: ko.observable('Jensa'),
 //    age: ko.observable(28),
     //match_id: ko.observable(''),
@@ -53,6 +54,7 @@ $(function() {
         $.getJSON($SCRIPT_ROOT + '/_scrape_game', {
             match_id: $('input[name="match_id_input"]').val()//'67601693'
             }, function(data) {
+            self.myModel.status('Added a game or two.');
         });
         return false;
     });
@@ -63,7 +65,7 @@ $(function() {
     $('button#remove_match').bind('click', function() {
         $.getJSON($SCRIPT_ROOT + '/admin/_remove_match', {
             }, function(data) {
-            alert('all matches deleted');
+            self.myModel.status('Deleted');
         });
         return false;
     });
@@ -74,6 +76,7 @@ $(function() {
 {% endblock %}
 
 {% block body %}
+<span data-bind="text: status">Status</span>
 <input name="match_id_input"></input>
 <button css="btn" id="scrape_match">Scrape match</button>
 <button css="btn btn-warning" id="remove_match">Remove all matches</button>
