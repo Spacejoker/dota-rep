@@ -39,7 +39,6 @@ $(function() {
             hero_name: $('select[name="hero"]').val()//'67601693'
             //b: $('input[name="b"]').val()
             }, function(data) {
-            alert(data);
             var d = data.matches;
             self.myModel.matches([]);
             for(var i = 0; i < d.length; i++){
@@ -50,6 +49,15 @@ $(function() {
     });
 });
 
+$(function() {
+    $('button#scrape_match').bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/_scrape_game', {
+            match_id: $('input[name="match_id_input"]').val()//'67601693'
+            }, function(data) {
+        });
+        return false;
+    });
+});
 
 </script>
 
@@ -58,7 +66,9 @@ $(function() {
 {% block body %}
 <span data-bind="text: name"></span>
 <span data-bind="text: age"></span>
-
+<input name="match_id_input"></input>
+<button css="btn" id="scrape_match">Scrape match</button>
+<br/><br/>
 <select name="hero">
     <option value="Lina">Lina</option>
     <option value="Pugna">Pugna</option>

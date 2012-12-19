@@ -40,29 +40,35 @@ def admin():
     ret += '</ul>'
     return render_template('admin.html', hero_list = ret)
 
+@app.route('/_scrape_game')
+def scrape_game():
+    print 'ok'
+    match_id = int(request.args.get('match_id'))
+    print 'ok2'
+    for m_id in range(match_id, match_id + 20):
+        print 'scraping game' + str(m_id)
+        try: 
+            add_match(str(m_id), db)
+        except: 
+            print 'problem with game ' + str(m_id)
+
+    return jsonify()
+
 @app.route('/_load_games')
 def load_games():
     hero_name = request.args.get('hero_name')
-    print hero_name
     matches = db.find_match(hero_name)
-    print len(matches)
-    #games = scrape.get_latest_games(player_id)
     
     #process result before showing
     for m in matches:
-        print m
         m['summary'] = 'The summary'
         for h in m['heroes']:
             print h
             if h['hero'] == hero_name:
                 print 'match!'
                 m['summary'] = str(hero_name) + ' played by ' + str(h['player'])
-    print 'after'
     ret = {'matches' : matches}
-    print 'RET:'
-    print ret
-    #ret = {'matches': [{'heroes': [{'player': 'DotAholi...', 'hero': 'Weaver'}], '_id': ObjectId('50d1079e9eae4f5309164f1c'), 'type': 'match', 'match_id': u'Match 79804452'}]}
-    print 'returning from server'
+
     return jsonify(**ret)
 
 @app.route('/_remove_hero')

@@ -84,6 +84,7 @@ class Database():
         self.hero_.remove({'type' : 'match'}, safe=True)
 
     def save_match(self, match):
+        self.hero_.remove({'type' : 'match', 'match_id' : match['match_id']}, safe=True)
         self.hero_.save(match)
 
     def find_match(self, hero_name=""):
