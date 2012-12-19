@@ -110,6 +110,9 @@ def add_match(match_id='', db=None):
             links = row.findAll('a')
             tmp['player'] = links[1].text
             tmp['hero'] = links[3].text
+            tmp['k'] = row.findAll('td')[4].text
+            tmp['d'] = row.findAll('td')[5].text
+            tmp['a'] = row.findAll('td')[6].text
             hero_data.append(tmp)
     
     ret['heroes'] = hero_data    

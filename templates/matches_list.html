@@ -11,9 +11,9 @@ function Match(hero, match_id){
 
 var myModel = {
     self: this,
-    name: ko.observable('Jensa'),
-    age: ko.observable(28),
-    match_id: ko.observable(''),
+//    name: ko.observable('Jensa'),
+//    age: ko.observable(28),
+    //match_id: ko.observable(''),
     row_data: ko.observableArray([]), 
     matches:  ko.observableArray([
     ]),
@@ -22,10 +22,10 @@ var myModel = {
         this.matches.push(new Match(data.summary, data.match_id));
     },
 
-    increment : function() {
-        var prevage = this.age();
-        this.age(prevage + 1);
-    }
+    //increment : function() {
+        //var prevage = this.age();
+        //this.age(prevage + 1);
+    //}
 };
 $(function(){
     ko.applyBindings(myModel);
@@ -36,8 +36,7 @@ var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 $(function() {
     $('button#load_games').bind('click', function() {
         $.getJSON($SCRIPT_ROOT + '/_load_games', {
-            hero_name: $('select[name="hero"]').val()//'67601693'
-            //b: $('input[name="b"]').val()
+            hero_name: $('select[name="hero"]').val()
             }, function(data) {
             var d = data.matches;
             self.myModel.matches([]);
@@ -64,8 +63,6 @@ $(function() {
 {% endblock %}
 
 {% block body %}
-<span data-bind="text: name"></span>
-<span data-bind="text: age"></span>
 <input name="match_id_input"></input>
 <button css="btn" id="scrape_match">Scrape match</button>
 <br/><br/>
@@ -80,7 +77,7 @@ $(function() {
 </select>
 </div><div class="span4">
 
-<button data-bind="click: increment" id="load_games" class="btn btn-primary">Load games</button>
+<button id="load_games" class="btn btn-primary">Load games</button>
 </div>
 <table class="table">
     <thead>
