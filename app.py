@@ -58,7 +58,7 @@ def scrape_game():
 def load_games():
     hero_name = request.args.get('hero_name')
     matches = db.find_match(hero_name)
-    
+    print 'a'
     #process result before showing
     for m in matches:
         m['summary'] = 'The summary'
@@ -66,7 +66,7 @@ def load_games():
             if h['hero'] == hero_name:
                 m['summary'] = str(hero_name) + ' played by ' + str(h['player'])
     ret = {'matches' : matches}
-
+    print 'b'
     return jsonify(**ret)
 
 @app.route('/_remove_hero')

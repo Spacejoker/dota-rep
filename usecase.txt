@@ -1,19 +1,3 @@
-#2.5/5
-enter player link to dotabuff
-if no data in db it must be refreshed
-be able to show stats per hero - k/d/a total for example.
-Every match with that hero listed.
-
-# 0/5
-Bank
-
-#raspberry pi project -vill koera heroku
-
-#online game - to advanced for me now
-
-piro: jquery, flask, nice design, many user hits.
-
-
 IDE:
 Kunna soka pa replayes for en viss hero, och da lista matcher och en verified player.
 Steg 1: Hamta en lista pa verifierade spelare
@@ -22,3 +6,12 @@ Spara i mongo-db!
 
 Steg 2: Visa alla heroes, inkl bild etc.
 
+UC1:
+- Have a bar at the top with search criteria
+- show a row: player, win/loss, k/d/a, match-id, date, link to game
+
+UC2:
+- scrape interesting matches (admin gui)
+
+UC3:
+- show matches sorted by relevance
