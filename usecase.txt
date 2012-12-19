@@ -6,12 +6,21 @@ Spara i mongo-db!
 
 Steg 2: Visa alla heroes, inkl bild etc.
 
+Todo:
+- clean up code and tests, getting messy
+- start focusing on uc 1 - play around with visual style and layout
+
 UC1:
-- Have a bar at the top with search criteria
-- show a row: player, win/loss, k/d/a, match-id, date, link to game
+- Have a bar at the top with search criteria, drop down or search bar for hero.
+- show a row: player, win/loss, k/d/a, match-id, date, link to game. Make it look good, with links to games/dotafire/etc. Show items.
 
 UC2:
-- scrape interesting matches (admin gui)
+- scrape interesting matches (admin gui) - build on this mechanism to make it automatic. Keeping up to date, deleting old matches etc.
 
 UC3:
-- show matches sorted by relevance
+- Make it look good and feel nice on heroku.
+
+When UC1 and 2 are prefect - go to the community and ask for feedback.
+
+UC3:
+- introduce an algoritm for ranking matches, ordering. maybe reddit style voting? This is lower prio.

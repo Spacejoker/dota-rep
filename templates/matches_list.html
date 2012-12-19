@@ -44,39 +44,12 @@ $(function() {
     });
 });
 
-$(function() {
-    $('button#scrape_match').bind('click', function() {
-        $.getJSON($SCRIPT_ROOT + '/_scrape_game', {
-            match_id: $('input[name="match_id_input"]').val()//'67601693'
-            }, function(data) {
-            self.myModel.status('Added a game or two.');
-        });
-        return false;
-    });
-});
-
-
-$(function() {
-    $('button#remove_match').bind('click', function() {
-        $.getJSON($SCRIPT_ROOT + '/admin/_remove_match', {
-            }, function(data) {
-            self.myModel.status('Deleted');
-        });
-        return false;
-    });
-});
-
 </script>
 
 {% endblock %}
 
 {% block body %}
 <a href="/admin">Admin</a>
-<span data-bind="text: status">Status</span>
-<input name="match_id_input"></input>
-<button css="btn" id="scrape_match">Scrape match</button>
-<button css="btn btn-warning" id="remove_match">Remove all matches</button>
-
 <br/><br/>
 <div class="container" style="background-color: #FCF3FF">
 <div class="row">
