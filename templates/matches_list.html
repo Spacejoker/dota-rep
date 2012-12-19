@@ -3,31 +3,26 @@
 {% block head %}
 
 <script type="text/javascript">
-function Match(hero, match_id){
+function Match(hero, match_id, k, d, a){
     var self = this;
     self.hero = hero;
     self.match_id = match_id;
+    self.k = k;
+    self.d = d;
+    self.a = a;
 }
 
 var myModel = {
     self: this,
     status: ko.observable('Status'),
-//    name: ko.observable('Jensa'),
-//    age: ko.observable(28),
-    //match_id: ko.observable(''),
     row_data: ko.observableArray([]), 
-    matches:  ko.observableArray([
-    ]),
+    matches:  ko.observableArray([]),
 
     addRow : function(data) {
-        this.matches.push(new Match(data.summary, data.match_id));
+        this.matches.push(new Match(data.summary, data.match_id, data.k, data.d, data.a));
     },
-
-    //increment : function() {
-        //var prevage = this.age();
-        //this.age(prevage + 1);
-    //}
 };
+
 $(function(){
     ko.applyBindings(myModel);
 });
@@ -76,6 +71,7 @@ $(function() {
 {% endblock %}
 
 {% block body %}
+<a href="/admin">Admin</a>
 <span data-bind="text: status">Status</span>
 <input name="match_id_input"></input>
 <button css="btn" id="scrape_match">Scrape match</button>
@@ -100,12 +96,18 @@ $(function() {
         <tr class='row'>
             <th class='span4'>Hero</th>
             <th class='span4'>Match ID</th> 
+            <th class='span1'>Kills</th> 
+            <th class='span1'>Deaths</th> 
+            <th class='span1'>Assists</th> 
         </tr>
     </thead>
     <tbody data-bind="foreach: matches">
         <tr class='row'>
             <td class='span4' data-bind="text: hero"></td>
             <td class='span4' data-bind="text: match_id"></td>
+            <td class='span1' data-bind="text: k"></td>
+            <td class='span1' data-bind="text: d"></td>
+            <td class='span1' data-bind="text: a"></td>
         </tr>
     </tbody>
 </table>

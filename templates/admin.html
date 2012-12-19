@@ -70,6 +70,7 @@ $(function() {
 {% endblock %}
 
 {% block body %}
+<a href="/matches_list">Matches</a>
 <span data-bind="text: status">Status</span>
 <span data-bind="text: total_matches">Status</span>
 <br></br>
@@ -79,7 +80,6 @@ $(function() {
 
 <button css="btn" id="status">Get Status</button>
 <br></br>
-
 <div>
     <input name="player_id"></input>
     <button css="btn" id="scrape_player">Scrape player</button>

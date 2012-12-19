@@ -67,7 +67,10 @@ def load_games():
         m['summary'] = 'The summary'
         for h in m['heroes']:
             if h['hero'] == hero_name:
-                m['summary'] = str(hero_name) + ' played by ' + str(h['player'])
+                m['summary'] = hero_name + ' played by ' + h['player']
+                m['k'] = h['k']
+                m['d'] = h['d']
+                m['a'] = h['a']
     ret = {'matches' : matches}
     print 'b'
     return jsonify(**ret)
