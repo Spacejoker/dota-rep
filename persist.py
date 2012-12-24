@@ -64,10 +64,9 @@ class Database():
 
     def find_hero(self, name=None):
         ret = []
-        c = self.hero_.find({'type':'hero'})
+        c  = self.hero_.find({'type':'hero'}, {'_id' :False})
         for h in c:
-            hero = Hero(h['name'], h['img_link'])
-            ret.append(hero)
+            ret.append(h)
         return ret
 
     def remove_hero(self, name=None):
@@ -88,7 +87,6 @@ class Database():
         self.hero_.save(match)
 
     def find_match(self, hero_name=""):
-        #return {'matches' : [{'match_id':'100', 'heroes' : ['Pugna','Lina']}, {'match_id':'42', 'heroes' : ['Skeleton King','Drow Ranger']}]}
         c = None
         if(hero_name != ""):
             c = self.hero_.find({'type' : 'match', 'heroes.hero' : {'$in':  [hero_name] }},{'_id': False})

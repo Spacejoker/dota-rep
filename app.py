@@ -75,10 +75,15 @@ def load_games():
     print 'b'
     return jsonify(**ret)
 
+@app.route('/_load_heroes')
+def load_heroes():
+    heroes = db.find_hero()
+    ret = { 'data' : heroes }
+    return jsonify(**ret)
+
 #clear matches
 @app.route('/admin/_remove_match')
 def remove_match():
-    print 'removing'
     db.remove_match()
     return jsonify(result='success')
 
@@ -91,21 +96,8 @@ def remove_hero():
 #scrape heroes
 @app.route('/_refresh_heroes')
 def refresh_heroes():
-    #request.args.get('heroname')
     heroes = scrape.refresh_heroes(db)
     return jsonify(result='Success, nr of new heroes: ' + str(len(heroes)))
-
-
-#flask page with static content
-@app.route('/heroes')
-def heroes():
-    hero_list = db.find_hero()
-    ret = ""
-    for h in hero_list:
-        ret += '<img src="' + url_for('static', filename='hero_img/' + h.img_link) + '"/>'
-    print ret
-    hero = Markup(ret)
-    return render_template('heroes.html', hero=hero)
 
 if __name__ == '__main__':
     db = Database()

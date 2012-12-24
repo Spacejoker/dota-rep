@@ -12,22 +12,37 @@ function Match(hero, match_id, k, d, a){
     self.a = a;
 }
 
-var myModel = {
-    self: this,
-    status: ko.observable('Status'),
-    row_data: ko.observableArray([]), 
-    matches:  ko.observableArray([]),
+function Hero(name){
+    var self = this;
+    self.name = name;
+}
 
+var myModel = {
+    self : this,
+    status : ko.observable('Status'),
+    row_data : ko.observableArray([]), 
+    matches :  ko.observableArray([]),
+    heroes : ko.observableArray([]),
     addRow : function(data) {
         this.matches.push(new Match(data.summary, data.match_id, data.k, data.d, data.a));
     },
+    addHero : function(data) {
+        this.heroes.push(new Hero(data));
+    }
 };
 
+var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 $(function(){
     ko.applyBindings(myModel);
+    $.getJSON($SCRIPT_ROOT + '/_load_heroes', {
+        }, function(data) {
+        var heroes = data.data;
+        for(var i = 0; i < heroes.length; i ++){
+            self.myModel.addHero(heroes[i].name);
+        }
+    });
 });
 
-var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
 $(function() {
     $('button#load_games').bind('click', function() {
@@ -52,15 +67,22 @@ $(function() {
 <a href="/admin">Admin</a>
 <br/><br/>
 <div class="container" style="background-color: #FCF3FF">
-<div class="row">
-    <div class="span4">
-<select name="hero">
-    <option value="Lina">Lina</option>
-    <option value="Pugna">Pugna</option>
-    <option value="Sven">Sven</option>
-    <option value="Templar Assassin">Templar Assassin</option>
-</select>
-</div><div class="span4">
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">Dota hero replays</a>
+        <ul class="nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+        </ul>
+    </div>
+</div>
+
+<table class="table">
+    <tbody data-bind="foreach: heroes">
+        <td class="span4" data-bind="text: name"></td>
+    </tbody>
+</table>
 
 <button id="load_games" class="btn btn-primary">Load games</button>
 </div>
