@@ -34,6 +34,7 @@ def scrape_game():
             print 'problem with game ' + str(m_id)
 
     return jsonify()
+
 @app.route('/admin/_scrape_player')
 def scrape_player():
     print 'a'
@@ -61,7 +62,7 @@ def load_games():
     print 'server'
     hero_name = request.args.get('hero_name')
     matches = db.find_match(hero_name)
-    print 'a'
+    print 'Recieved heroname:  ' + str(hero_name)
     #process result before showing
     for m in matches:
         m['summary'] = 'The summary'

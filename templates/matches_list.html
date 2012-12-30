@@ -3,14 +3,14 @@
 {% block head %}
 
 <script type="text/javascript">
-function Match(hero, match_id, k, d, a){
-    var self = this;
-    self.hero = hero;
-    self.match_id = match_id;
-    self.k = k;
-    self.d = d;
-    self.a = a;
-}
+    function Match(hero, match_id, k, d, a){
+        var self = this;
+        self.hero = hero;
+        self.match_id = match_id;
+        self.k = k;
+        self.d = d;
+        self.a = a;
+    }
 
 function Hero(name){
     var self = this;
@@ -18,95 +18,99 @@ function Hero(name){
 }
 
 var myModel = {
-    self : this,
-    status : ko.observable('Status'),
-    row_data : ko.observableArray([]), 
-    matches :  ko.observableArray([]),
-    heroes : ko.observableArray([]),
-    addRow : function(data) {
-        this.matches.push(new Match(data.summary, data.match_id, data.k, data.d, data.a));
-    },
-    addHero : function(data) {
-        this.heroes.push(new Hero(data));
-    }
+self : this,
+       status : ko.observable('Status'),
+       row_data : ko.observableArray([]), 
+       matches :  ko.observableArray([]),
+       heroes : ko.observableArray([]),
+       addRow : function(data) {
+           this.matches.push(new Match(data.summary, data.match_id, data.k, data.d, data.a));
+       },
+addHero : function(data) {
+              this.heroes.push(new Hero(data));
+          }
 };
 
 var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 $(function(){
-    ko.applyBindings(myModel);
-    $.getJSON($SCRIPT_ROOT + '/_load_heroes', {
-        }, function(data) {
-        var heroes = data.data;
-        for(var i = 0; i < heroes.length; i ++){
-            self.myModel.addHero(heroes[i].name);
-        }
-    });
-});
+        ko.applyBindings(myModel);
+        var all_heroes = ["Pugna", "Windrunner"];
+        $.getJSON($SCRIPT_ROOT + '/_load_heroes', {
+            }, function(data) {
+            var heroes = data.data;
 
+            for(var i = 0; i < heroes.length; i ++){
+            self.myModel.addHero(heroes[i].name);
+            }
+            });
+        });
 
 $(function() {
-    $('button#load_games').bind('click', function() {
-        $.getJSON($SCRIPT_ROOT + '/_load_games', {
-            hero_name: $('select[name="hero"]').val()
-            }, function(data) {
-            var d = data.matches;
-            self.myModel.matches([]);
-            for(var i = 0; i < d.length; i++){
-                self.myModel.addRow(d[i]);
-            }
-        });
-        return false;
-    });
+        $('button#load_games').bind('click', function() {
+            $.getJSON($SCRIPT_ROOT + '/_load_games', {
+hero_name: $('input[id=search]').val()
+}, function(data) {
+var d = data.matches;
+self.myModel.matches([]);
+for(var i = 0; i < d.length; i++){
+self.myModel.addRow(d[i]);
+}
+self.myModel.status('UPDATE');
 });
+            return false;
+            });
+        });
+    </script>
 
-</script>
+    {% endblock %}
 
-{% endblock %}
-
-{% block body %}
-<a href="/admin">Admin</a>
-<br/><br/>
-<div class="container" style="background-color: #FCF3FF">
-<div class="navbar">
-    <div class="navbar-inner">
-        <a class="brand" href="#">Dota hero replays</a>
-        <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-        </ul>
+    {% block body %}
+    <span data-bind="text: status"></span>
+    <div>
     </div>
+    <a href="/admin">Admin</a>
+    <br/><br/>
+    <div class="container" style="background-color: #FCF3FF">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="#">Dota hero replays</a>
+                <ul class="nav">
+                    <li class="active"><a href="#">Home</a></li>
+                </ul>
+            </div>
+        </div>
+        <form class="form-search">
+            <input type="text" class="input-medium search-query" id="search">
+            <button type="submit" class="btn" id="load_games">Search</button>
+        </form>
+        <!--
+        <table class="table">
+            <tbody data-bind="foreach: heroes">
+                <td class="span4" data-bind="text: name"></td>
+            </tbody>
+        </table>
+        -->
+    </div>
+    <table class="table">
+        <thead>
+            <tr class='row'>
+                <th class='span4'>Hero</th>
+                <th class='span4'>Match ID</th> 
+                <th class='span1'>Kills</th> 
+                <th class='span1'>Deaths</th> 
+                <th class='span1'>Assists</th> 
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: matches">
+            <tr class='row'>
+                <td class='span4' data-bind="text: hero"></td>
+                <td class='span4' data-bind="text: match_id"></td>
+                <td class='span1' data-bind="text: k"></td>
+                <td class='span1' data-bind="text: d"></td>
+                <td class='span1' data-bind="text: a"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-
-<table class="table">
-    <tbody data-bind="foreach: heroes">
-        <td class="span4" data-bind="text: name"></td>
-    </tbody>
-</table>
-
-<button id="load_games" class="btn btn-primary">Load games</button>
-</div>
-<table class="table">
-    <thead>
-        <tr class='row'>
-            <th class='span4'>Hero</th>
-            <th class='span4'>Match ID</th> 
-            <th class='span1'>Kills</th> 
-            <th class='span1'>Deaths</th> 
-            <th class='span1'>Assists</th> 
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: matches">
-        <tr class='row'>
-            <td class='span4' data-bind="text: hero"></td>
-            <td class='span4' data-bind="text: match_id"></td>
-            <td class='span1' data-bind="text: k"></td>
-            <td class='span1' data-bind="text: d"></td>
-            <td class='span1' data-bind="text: a"></td>
-        </tr>
-    </tbody>
-</table>
-</div>
-
 
 {% endblock %}
