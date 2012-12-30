@@ -37,43 +37,35 @@ def scrape_game():
 
 @app.route('/admin/_scrape_player')
 def scrape_player():
-    print 'a'
     player_id = request.args.get('match_id')
-    print 'b'
-    print player_id
     scrape.scrape_player(player_id, db)
-    print 'c' 
     ret = {}
     return jsonify(**ret)
 
 @app.route('/admin/_status')
 def status():
     players = db.find_player()
-    print 'b'
     match_cnt = db.count_matches()
-    print players
     ret = {'games_played' : str(match_cnt), 'players' : players}
-    print 'c'
     return jsonify(**ret)
 
 #List games per search criteria (hero_name)
 @app.route('/_load_games')
 def load_games():
-    print 'server'
     hero_name = request.args.get('hero_name')
     matches = db.find_match(hero_name)
-    print 'Recieved heroname:  ' + str(hero_name)
-    #process result before showing
+    
+#process result before showing
     for m in matches:
         m['summary'] = 'The summary'
         for h in m['heroes']:
             if h['hero'] == hero_name:
                 m['summary'] = hero_name + ' played by ' + h['player']
+                m['player'] = h['player']
                 m['k'] = h['k']
                 m['d'] = h['d']
                 m['a'] = h['a']
     ret = {'matches' : matches}
-    print 'b'
     return jsonify(**ret)
 
 @app.route('/_load_heroes')
